@@ -27,6 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATICFILES_DIRS = [
+    'Project03/Python-Django-App/main_app/static'
+]
+
 
 # Application definition
 
