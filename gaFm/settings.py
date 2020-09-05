@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'gaFm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'musicContent',
+        'NAME': 'musiccontent',
         'USER': 'postgres',
-        'PASSWORD': 'bignut123'
+        'PASSWORD': 'uyicool1$'
     }
 }
 
