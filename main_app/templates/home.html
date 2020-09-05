@@ -1,20 +1,15 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}Home{% endblock %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>GA.fm</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-</head>
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+  <a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+{% endblock %}
 
-<body>
-  <img id='logo' src='https://i.imgur.com/eK74Vzb.png'>
-  <h1>Discover the best music out there!</h1>
-  <hr />
-</body>
-
-</html>
