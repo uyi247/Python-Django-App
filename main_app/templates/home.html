@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    body {
+      background: rgb(56, 56, 56);
+    }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GA.fm</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  <div class='container'>
+    <header>
+      <a href=''><img id='logo' src='https://i.imgur.com/eK74Vzb.png'></a>
+      <nav>
+        <ul>
+          <li><a href=''>My Collection</a></li>
+          <li><a href=''>Log In</a></li>
+          <li><a href=''>Sign Up</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+  <div id='non-header'>
+    <h1>Discover the best music!</h1>
+    <hr />
+    <h2>Top 50 albums</h2>
+    <div id='top50'>
+      {% for id, art in id_and_art %}
+      <a href='album/{{ id }}'>
+        <img class='album_art' src={{ art }}>
+      </a>
+      {% endfor %}
+    </div>
+    <div id='Your Collection'>
+      <h2>Your collection</h2>
+      <p>If you had a colection, it would appear here</p>
+    </div>
+  </div>
+</body>
+
+</html>

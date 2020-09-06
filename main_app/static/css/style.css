@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  color: rgb(223, 223, 223);
+}
+
+header {
+  background: rgb(31, 31, 31);
+  width:100%;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+#logo {
+  height: 80px;
+  float: left;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+nav li {
+  display: inline-block;
+  margin: 18px 50px 0 50px;
+  padding-top: 13px;
+  position: relative;
+}
+
+nav a {
+  color: rgb(155, 155, 155);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  animation: changeColor 0.5s ease forwards;
+}
+
+@keyframes changeColor {
+  from {
+    color: rgb(155, 155, 155);
+  }
+  to {
+    color: rgb(211, 4, 4);
+  }
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 100%;
+  background: rgb(211, 4, 4);
+  position: absolute;
+  top: -17px;
+  width: 0%;
+  transition: all ease-in-out 0.3s;
+}
+
+nav a:hover::before {
+  width:100%;
+}
+
+.album_art {
+  max-width: 250px;
+  margin-right: 10px;
+}
+
+#top50 {
+  max-height: 330px;
+  background: rgba(31, 31, 31);
+  border: 3px solid rgba(31, 31, 31, 0.85);
+  overflow: scroll;
+}
+
+#non-header {
+  margin-left: 10px;
+}
