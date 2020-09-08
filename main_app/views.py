@@ -35,6 +35,9 @@ def album_details(request, album_id):
       'album_description': album['album'][0]['strDescriptionEN'],
     })
 
+def collection_my(request):
+  return render(request, 'collections/mycollection.html')
+
 def signup(request):
   error_message = ''
   if request.method == 'POST':
