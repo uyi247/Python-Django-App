@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    body {
+      height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      animation: fade 1s ease forwards;
+    }
+
+    body:before {
+      content: "";
+      position: absolute;
+      background: url('{{ album_art }}');
+      background-size: cover;
+      z-index: -1;
+      height: 20%;
+      width: 20%;
+      transform: scale(5);
+      transform-origin: top left;
+      filter: blur(4px);
+    }
+
+    body-inside {
+      position: relative;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opactiy: 1;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    #album_art {
+      margin: 10px 0 0 10px;
+      max-width: 550px;
+    }
+
+    .album_info_desc {
+      background: rgb(0, 0, 0, 0.8);
+      border: 3px solid rgba(233, 233, 233, 0.85)
+    }
+
+    #album_info {
+      margin: 10px 0 0 20px;
+      font-size: 22px;
+      padding: 0 10px 15px 10px;
+    }
+
+    #album_art_info {
+      display: flex;
+      max-width: 760px;
+    }
+
+    #album_description {
+      font-size: 18px;
+      margin: 10px;
+      padding: 10px;
+      max-width: 750px;
+      max-height: 330px;
+      overflow: scroll;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ album_name }}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  <div class='container'>
+    <header>
+      <a href='/'><img id='logo' src='https://i.imgur.com/eK74Vzb.png'></a>
+      <nav>
+        <ul>
+          <li><a href=''>My Collection</a></li>
+          <li><a href=''>Log In</a></li>
+          <li><a href=''>Sign Up</a></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+  <div id='album_art_info'>
+    <img id='album_art' src='{{ album_art }}'>
+    <article class='album_info_desc' id='album_info'>
+      <p>Album Info</p>
+      <hr />
+      <p>Artist: {{ artist_name }}</p>
+      <p>Album: {{ album_name }}</p>
+      <p>Genre: {{ genre }}</p>
+      <p>Initial Sales: {{ sales }}</p>
+    </article>
+  </div>
+    <p class='album_info_desc' id='album_description'>Album Description: {{ album_description }}</p>
+</body>
+
+</html>
