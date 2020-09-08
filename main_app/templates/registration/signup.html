@@ -1,9 +1,9 @@
 {% extends 'base.html' %} {% block content %}
 
 <h1>Sign Up</h1>
-
-<form method="post" action="{% url 'login' %}">
-  {% csrf_token %} {{ form.as_p }}
+{{error_message}}
+<form method="post" action="{% url 'signup' %}">
+  {{form.errors}} {% csrf_token %} {{ form.as_p }}
   <input type="submit" class="btn" value="Sign Up" />
   <input type="hidden" name="next" value="{{ next }}" />
 </form>

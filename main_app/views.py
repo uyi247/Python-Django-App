@@ -1,27 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.views import generic
 import requests
+
+class SignUp(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'
+
+
 def home(request):
   return render(request, 'home.html')
 
 def signup(request):
   error_message = ''
-  if request.method == 'POST':
-    
-    form = UserCreationForm(request.POST)
+  form = UserCreationForm(request.POST or None)
+  if request.method == 'POST':    
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('index')
+      return redirect('home')
     else:
       error_message = 'Invalid sign up - try again'
-  form = UserCreationForm()
+
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
-  import requests
+
 
 def home(request):
     responsetop50 = requests.get('https://theaudiodb.com/api/v1/json/523532/mostloved.php?format=album')
