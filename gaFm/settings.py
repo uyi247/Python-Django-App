@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATICFILES_DIRS = [
+    'MyProject03/main_app/static',
     'python-dk-pa/main_app/static'
 ]
 

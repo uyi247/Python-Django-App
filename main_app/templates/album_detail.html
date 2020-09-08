@@ -1,23 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block title %}{{ album_name }}{% endblock %} {%
+block content %}
 
-{% block title %}{{ album_name }}{% endblock %}
-
-{% block content %}
-
-  <div id='album_art_info'>
-    <img id='album_art' src='{{ album_art }}'>
-    <article class='album_info_desc' id='album_info'>
-      <form action="" method="POST">
-      
-      </form>
-      <p>Album Info</p>
-      <hr />
-      <p>Artist: {{ artist_name }}</p>
-      <p>Album: {{ album_name }}</p>
-      <p>Genre: {{ genre }}</p>
-      <p>Initial Sales: {{ sales }}</p>
-    </article>
-  </div>
-    <p class='album_info_desc' id='album_description'>Album Description: {{ album_description }}</p>
+<div id="album_art_info">
+  <img id="album_art" src="{{ album_art }}" />
+  <article class="album_info_desc" id="album_info">
+    <form action="" method="POST"></form>
+    <p>Album Info</p>
+    <hr />
+    <p>Artist: {{ artist_name }}</p>
+    <p>Album: {{ album_name }}</p>
+    <p>Genre: {{ genre }}</p>
+    <p>Initial Sales: {{ sales }}</p>
+  </article>
+</div>
+<p class="album_info_desc" id="album_description">
+  Album Description: {{ album_description }}
+</p>
 
 {% endblock %}

@@ -27,11 +27,5 @@ class Album(models.Model):
   def __str__(self):
     return self.name
 
-  # def get_absolute_url(self):
-  #   return reverse('detail', kwargs={'collection_id': self.id})
-
-class Collection(models.Model):
-  name = models.CharField(max_length=100)
-  description = models.TextField(max_length=250)
-  albums = models.ManyToManyField(Album)
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  def get_absolute_url(self):
+    return reverse('detail', kwargs={'collection_id': self.id})
