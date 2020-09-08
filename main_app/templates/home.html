@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
@@ -12,3 +13,30 @@
   <a href="{% url 'signup' %}">Sign Up</a>
 {% endif %}
 {% endblock %}
+=======
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    #logo {
+      width:50%;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>GA.fm</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+  <img id='logo' src='https://i.imgur.com/eK74Vzb.png'>
+  <h1>Discover the best music pew!</h1>
+  <hr />
+</body>
+
+</html>
+>>>>>>> 7640c7080701b676fc97220a0d579199676ba27b
