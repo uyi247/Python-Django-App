@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block title %}{{ album_name }}{% endblock %} {%
-block content %}
+{% extends 'base.html' %} {% block title %}{{ album_name }}{% endblock %} {% {%
+{% block content %}
 
 <div id="album_art_info">
   <img id="album_art" src="{{ album_art }}" />
@@ -11,6 +11,16 @@ block content %}
     <p>Album: {{ album_name }}</p>
     <p>Genre: {{ genre }}</p>
     <p>Initial Sales: {{ sales }}</p>
+    {% if collection %}
+    <a href="{% url 'remove_from_collection' album_id=pk %}"
+      >Remove from collection</a
+    >
+    <a href="{% url 'rate_collection' album_id=pk %}"
+      >Rate ({{collection.rating}})</a
+    >
+    {% else %}
+    <a href="{% url 'add_to_collection' album_id=pk %}">Add to collection</a>
+    {% endif %}
   </article>
 </div>
 <p class="album_info_desc" id="album_description">

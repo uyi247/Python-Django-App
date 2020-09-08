@@ -4,6 +4,9 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 import requests
+from django.urls import reverse
+from main_app.models import Album, Collection
+from main_app.forms import RatingForm
 
 def home(request):
     responsetop50 = requests.get('https://theaudiodb.com/api/v1/json/523532/mostloved.php?format=album')
@@ -77,4 +80,39 @@ def album_details(request, album_id):
       'genre': album['album'][0]['strGenre'],
       'sales': album['album'][0]['intSales'],
       'album_description': album['album'][0]['strDescriptionEN'],
+      'pk': album_id,
+      'collection': Collection.objects.filter(user=request.user, album=album_id).first()
     })
+
+@login_required
+def add_to_collection(request, album_id):  
+  response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(album_id))
+  album = response.json()
+  collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
+  collection.title = album['album'][0]['strAlbum']
+  collection.save()
+  return redirect(reverse('detail', kwargs={'album_id': album_id}))
+
+@login_required
+def remove_from_collection(request, album_id):  
+  collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
+  collection.delete()
+  return redirect(reverse('detail', kwargs={'album_id': album_id}))
+
+@login_required
+def rate_collection(request, album_id):  
+  collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
+  form = RatingForm(request.POST or None, instance=collection)
+  if request.method == "POST":
+    if form.is_valid():
+      collection = form.save(False)
+      collection.user = request.user
+      collection.save()
+      return redirect(reverse('detail', kwargs={'album_id': album_id}))
+  return render(request, 'rate.html', {'form': form})
+  #collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
+  #return redirect(reverse('detail', kwargs={'album_id': album_id}))
+
+@login_required
+def collection( request):
+  return render(request, 'collection.html', {'collections': Collection.objects.filter(user=request.user)})

@@ -22,16 +22,7 @@ class Migration(migrations.Migration):
                 ('genre', models.CharField(max_length=100)),
             ],
         ),
-        migrations.CreateModel(
-            name='Collection',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField(max_length=250)),
-                ('albums', models.ManyToManyField(to='main_app.Album')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+       
         migrations.DeleteModel(
             name='albums',
         ),

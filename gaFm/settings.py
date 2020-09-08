@@ -83,8 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'musiccontent',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'uyicool1$'
+        'USER': 'postgres',
+        'PASSWORD': 'uyicool1$'
     }
 }
 
