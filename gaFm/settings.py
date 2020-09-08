@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATICFILES_DIRS = [
-    'MyProject03/main_app/static'
+    'MyProject03/main_app/static',
+    'python-dk-pa/main_app/static'
 ]
 
 
@@ -82,8 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'musiccontent',
-        'USER': 'postgres',
-        'PASSWORD': 'uyicool1$'
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'uyicool1$'
     }
 }
 
