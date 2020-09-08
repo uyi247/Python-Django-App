@@ -1,15 +1,38 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+  <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+    <style>
+      body {
+        background: rgb(56, 56, 56);
+      }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   </head>
   <body>
-    <img id="logo" src="https://i.imgur.com/eK74Vzb.png" />
-    <h1>Discover the best music out there!</h1>
-    <hr />
-    <main>{% block content %} {% endblock %}</main>
-    
-
+    <div class='container'>
+      <header>
+        <a href=''><img id='logo' src='https://i.imgur.com/eK74Vzb.png'></a>
+        <nav>
+          <ul>
+          {% if user.is_authenticated %}
+            <li><a href=''>My Collection</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+          {% else %}
+            <li><a href=''>Home</a></li>
+            <li><a href="{% url 'login' %}">Log In</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
+          </ul>
+        </nav>
+      </header>
+    </div>
+    {% block content %}
+    {% endblock %}
   </body>
 </html>

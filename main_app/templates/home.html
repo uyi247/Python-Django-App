@@ -3,13 +3,23 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
-  <a href="{% url 'signup' %}">Sign Up</a>
-{% endif %}
+
+<div id='non-header'>
+  <h1>Discover the best music!</h1>
+  <hr />
+  <h2>Top 50 albums</h2>
+  <div id='top50'>
+    {% for id, art in id_and_art %}
+    <a href='album/{{ id }}'>
+      <img class='album_art' src={{ art }}>
+    </a>
+    {% endfor %}
+  </div>
+  <div id='Your Collection'>
+    <h2>Your collection</h2>
+    <p>If you had a colection, it would appear here</p>
+  </div>
+</div>
+
 {% endblock %}
 
