@@ -115,4 +115,10 @@ def rate_collection(request, album_id):
 
 @login_required
 def collection( request):
-  return render(request, 'collection.html', {'collections': Collection.objects.filter(user=request.user)})
+  collections = Collection.objects.filter(user=request.user)
+  for collection in collections:
+    response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(collection.album))
+    album = response.json()
+    collection.art_url = album['album'][0]['strAlbum3DCase']
+    collection.artist = album['album'][0]['strArtist']
+  return render(request, 'collection.html', {'collections': collections})

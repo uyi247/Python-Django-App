@@ -10,21 +10,14 @@ class Album(models.Model):
   name = models.CharField(max_length=100)
   artist = models.CharField(max_length=100)
   genre = models.CharField(max_length=100)
-  description = models.TextField
+  description = models.TextField(default='')
+  art = models.URLField(default='')
 
   def __str__(self):
     return self.name
 
   def get_absolute_url(self):
     return reverse('albums_detail', kwargs={'pk': self.id})
-
-    
-
-  def __str__(self):
-    return self.name
-
-  def get_absolute_url(self):
-    return reverse('detail', kwargs={'collection_id': self.id})
 
 
 class Collection(models.Model):
