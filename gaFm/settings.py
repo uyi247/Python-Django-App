@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 STATICFILES_DIRS = [
-    'MyProject03/main_app/static'
+    'MyProject03/main_app/static',
+    'python-dk-pa/main_app/static'
 ]
 
 
@@ -81,9 +82,9 @@ WSGI_APPLICATION = 'gaFm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'musicContent',
+        'NAME': 'musiccontent',
         'USER': 'postgres',
-        'PASSWORD': 'bignut123'
+        'PASSWORD': 'uyicool1$'
     }
 }
 
@@ -125,3 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = 'home'
