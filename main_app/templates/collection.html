@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 {% for collection in collections%}
-<h1>
-  <a href='{% url "detail" album_id=collection.album %}'>
-    {{collection.title}}
-  </a>
-  ({{collection.rating}})
-</h1>
-{{ collection.artist }}
-<img width="400" height="400" src="{{ collection.art_url }}" />
-<em>{{collection.review}}</em>
-<a href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
-<a href='{% url "remove_from_collection" album_id=collection.album %}'
-  >Remove</a
->
-
-{% endfor %} 
+<a class='collection_links' href='{% url "detail" album_id=collection.album %}'>
+  <h1>
+    {{ collection.title }} - {{ collection.rating }}⭐
+  </h1>
+</a>
+<h3>
+  {{ collection.artist }}
+</h3>
+<a class='collection_links' href='{% url "detail" album_id=collection.album %}'>
+  <img id='collection_album_art' src="{{ collection.art_url }}"></a>
+<em>"{{collection.review}}"</em></br>
+<a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
+<a class='collection_links' href='{% url "remove_from_collection" album_id=collection.album %}'>Remove</a>
+<hr />
+{% endfor %}
 {% endblock %}
