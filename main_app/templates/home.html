@@ -1,27 +1,26 @@
-{% extends 'base.html' %}
+{% extends "base.html" %} 
 
-{% block title %}Home{% endblock %}
+{% block title %} Home {% endblock %} 
+
 
 {% block content %}
 
-<div id='non-header'>
+<div id="non-header">
   <h1>Discover the best music!</h1>
-  <hr/>
+  <hr />
   <h2>Top 50 albums</h2>
-  <div id='top50'>
+  <div id="top50">
     {% for id, art in id_and_art %}
-    <a href='album/{{ id }}'>
-      <img class='album_art' src={{ art }}>
+    <a href="album/{{ id }}">
+      <img class="album_art" src="{{ art }}" />
     </a>
     {% endfor %}
   </div>
-  <div id='Your Collection'>
-    <h2>Your collection</h2>
-    <p>If you had a collection, it would appear here</p>
-  </div>
-  <div id='other_collection'>
-    <h2>{{ user_name }}'s collection</h2>
-  </div> 
 </div>
+
+
+<h1>Collections</h1>
+
+{% include "collection_includable.html" %} 
 
 {% endblock %}

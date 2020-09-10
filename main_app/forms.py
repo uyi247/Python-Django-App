@@ -5,7 +5,7 @@ from main_app.models import Collection, CollectionRating
 class RatingForm(forms.ModelForm):
 
     class Meta:
-        model = Collection
+        model = CollectionRating
         fields = ['rating', 'review']
 
 class RatingUserForm(forms.ModelForm):

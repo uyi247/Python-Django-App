@@ -14,16 +14,16 @@
 {% if collection.review %}<em>"{{collection.review}}"</em></br>{% endif %}
 {% if collection.user_ratings %}
 {% for rating in collection.user_ratings %}
-{{rating.user_rating}}  {{rating.rating}}
+{{rating.user}}  {{rating.rating}}
  - {{rating.review }}
+  <a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
+  <a class='collection_links' href='{% url "remove_rating" album_id=collection.album %}'>Remove</a>
  {% endfor %}
  {% endif %}
-{% if user_id %}
-<a class='collection_links' href='{% url "rate_collection" album_id=collection.album user_id=user_id %}'>Rate</a>
-{% else %}
-<a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
+{% if not collection.user_ratings %}
+<a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Rate</a>
 {% endif %}
-<a class='collection_links' href='{% url "remove_from_collection" album_id=collection.album %}'>Remove</a>
+
 <hr />
 {% endfor %}
 {% endblock %}

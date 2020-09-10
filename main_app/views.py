@@ -21,23 +21,14 @@ def home(request):
         album_art_top50.append(top50['loved'][i]['strAlbumThumb'])
         i+=1
     zipped_list = zip(album_id, album_art_top50)
+
+    users = User.objects.all().prefetch_related('collection_set')
+
     return render(request, 'home.html', {
       'id_and_art': zipped_list,
       'album_id' : album_id,
       'album_art_top50': album_art_top50,
-    })
-
-def album_details(request, album_id):
-    response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(album_id))
-    album = response.json()
-    return render(request, 'album_detail.html', {
-      'album_name': album['album'][0]['strAlbum'],
-      'album_art': album['album'][0]['strAlbumThumb'],
-      'album_back': album['album'][0]['strAlbumThumbBack'],
-      'artist_name': album['album'][0]['strArtist'],
-      'genre': album['album'][0]['strGenre'],
-      'sales': album['album'][0]['intSales'],
-      'album_description': album['album'][0]['strDescriptionEN'],
+      'users': users,
     })
 
 def signup(request):
@@ -54,23 +45,6 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-def home(request):
-    responsetop50 = requests.get('https://theaudiodb.com/api/v1/json/523532/mostloved.php?format=album')
-    top50 = responsetop50.json()
-    album_id = []
-    album_art_top50 = []
-    i = 0
-    while i < len(top50['loved']):
-        album_id.append(top50['loved'][i]['idAlbum'])
-        album_art_top50.append(top50['loved'][i]['strAlbumThumb'])
-        i+=1
-    zipped_list = zip(album_id, album_art_top50)
-    return render(request, 'home.html', {
-      'id_and_art': zipped_list,
-      'album_id' : album_id,
-      'album_art_top50': album_art_top50,
-    })
-
 def album_details(request, album_id):
     response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(album_id))
     song_response = requests.get('https://theaudiodb.com/api/v1/json/1/track.php?m='+ str(album_id))
@@ -81,6 +55,13 @@ def album_details(request, album_id):
       song_list.append(str(i+1) + '. ' + songs['track'][i]['strTrack'])
       i+=1
     album = response.json()
+    ratings = CollectionRating.objects.filter(album=album_id)
+    if request.user.is_authenticated:
+      is_my_rating = ratings.filter(user=request.user)
+      collection = Collection.objects.filter(user=request.user, album=album_id).first()
+    else:
+      is_my_rating = False
+      collection = None
     return render(request, 'album_detail.html', {
       'album_name': album['album'][0]['strAlbum'],
       'album_art': album['album'][0]['strAlbumThumb'],
@@ -90,8 +71,10 @@ def album_details(request, album_id):
       'sales': album['album'][0]['intSales'],
       'album_description': album['album'][0]['strDescriptionEN'],
       'pk': album_id,
-      'collection': Collection.objects.filter(user=request.user, album=album_id).first(),
+      'collection': collection,
       'song_list': song_list,
+      'ratings': ratings,
+      'is_my_rating': is_my_rating,
     })
 
 @login_required
@@ -112,27 +95,25 @@ def remove_from_collection(request, album_id):
   return redirect(reverse('detail', kwargs={'album_id': album_id}))
 
 @login_required
-def rate_collection(request, album_id, user_id=None):  
-  if  user_id:
-    
-    collection, _ = CollectionRating.objects.get_or_create(album=album_id, user_collection_id=user_id, user_rating=request.user)
-    form = RatingUserForm(request.POST or None, instance=collection)
+def rate_collection(request, album_id, user_id=None):
+  rating = CollectionRating.objects.filter(album=album_id, user=request.user).first()
+  if rating:
+    form = RatingForm(instance=rating)
   else:
-    try:
-      collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
-    except:
-      collection = Collection.objects.filter(album=album_id, user=request.user).first()
-      pass
-    form = RatingForm(request.POST or None, instance=collection)
+    form = RatingForm()
   if request.method == "POST":
+    form = RatingForm(request.POST, instance=rating)
     if form.is_valid():
-      collection = form.save(False)
-      collection.user = request.user
-      collection.save()
+      print(rating)
+      rating = form.save(False)
+      print(rating)
+      rating.album = album_id
+      rating.user = request.user
+      rating.save()
       if user_id:
         return redirect(reverse('collection', kwargs={'user_id': user_id}))
       return redirect(reverse('detail', kwargs={'album_id': album_id}))
-  return render(request, 'rate.html', {'form': form})
+  return render(request, 'rate.html', {'form': form, 'rating': rating})
   #collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
   #return redirect(reverse('detail', kwargs={'album_id': album_id}))
 
@@ -140,28 +121,24 @@ def rate_collection(request, album_id, user_id=None):
 def collection( request):
   collections = Collection.objects.filter(user=request.user)
   for collection in collections:
-    collection.user_ratings = CollectionRating.objects.filter(album=collection.album, user_collection_id=request.user)
+    collection.user_ratings = CollectionRating.objects.filter(album=collection.album, user=request.user)
   return render(request, 'collection.html', {'collections': collections})
 
 
 def collections(request):
   users = User.objects.all().prefetch_related('collection_set')
-  for user in users:
-    user_collection =  CollectionRating.objects.filter(user_rating=request.user, user_collection=user).first()
-    
-    user.rating = user_collection
   context = {
     'users': users,
-    'stars': range(5)
   }
   return render(request, 'collections.html', context)
 
 def user_collection(request, user_id):
   collections = Collection.objects.filter(user_id=user_id)
-  for collection in collections:
-    collection.user_ratings = CollectionRating.objects.filter(
-      user_rating=request.user, album=collection.album, user_collection_id=user_id)
-    print(collection.user_ratings)
+  if request.user.is_authenticated:
+    for collection in collections:
+      collection.user_ratings = CollectionRating.objects.filter(
+        album=collection.album, user=request.user)
+      print(collection.user_ratings)
   return render(request, 'collection.html', {'collections': collections, 'user_id': user_id})
 
 def rate_user_collection(request, user_id, stars):
@@ -175,3 +152,8 @@ def review_collection(request, user_id):
   rating.review = request.POST.get('review')
   rating.save()
   return redirect('collections')
+
+
+def remove_rating(request, album_id):
+  CollectionRating.objects.filter(user=request.user, album=album_id).delete()
+  return redirect(reverse('detail', kwargs={'album_id': album_id}))
