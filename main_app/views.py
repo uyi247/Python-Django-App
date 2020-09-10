@@ -81,6 +81,8 @@ def album_details(request, album_id):
       song_list.append(str(i+1) + '. ' + songs['track'][i]['strTrack'])
       i+=1
     album = response.json()
+    ratings = CollectionRating.objects.filter(album=album_id)
+    is_my_rating = ratings.filter(user=request.user)
     return render(request, 'album_detail.html', {
       'album_name': album['album'][0]['strAlbum'],
       'album_art': album['album'][0]['strAlbumThumb'],
@@ -92,6 +94,8 @@ def album_details(request, album_id):
       'pk': album_id,
       'collection': Collection.objects.filter(user=request.user, album=album_id).first(),
       'song_list': song_list,
+      'ratings': ratings,
+      'is_my_rating': is_my_rating,
     })
 
 @login_required
@@ -112,27 +116,25 @@ def remove_from_collection(request, album_id):
   return redirect(reverse('detail', kwargs={'album_id': album_id}))
 
 @login_required
-def rate_collection(request, album_id, user_id=None):  
-  if  user_id:
-    
-    collection, _ = CollectionRating.objects.get_or_create(album=album_id, user_collection_id=user_id, user_rating=request.user)
-    form = RatingUserForm(request.POST or None, instance=collection)
+def rate_collection(request, album_id, user_id=None):
+  rating = CollectionRating.objects.filter(album=album_id, user=request.user).first()
+  if rating:
+    form = RatingForm(instance=rating)
   else:
-    try:
-      collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
-    except:
-      collection = Collection.objects.filter(album=album_id, user=request.user).first()
-      pass
-    form = RatingForm(request.POST or None, instance=collection)
+    form = RatingForm()
   if request.method == "POST":
+    form = RatingForm(request.POST, instance=rating)
     if form.is_valid():
-      collection = form.save(False)
-      collection.user = request.user
-      collection.save()
+      print(rating)
+      rating = form.save(False)
+      print(rating)
+      rating.album = album_id
+      rating.user = request.user
+      rating.save()
       if user_id:
         return redirect(reverse('collection', kwargs={'user_id': user_id}))
       return redirect(reverse('detail', kwargs={'album_id': album_id}))
-  return render(request, 'rate.html', {'form': form})
+  return render(request, 'rate.html', {'form': form, 'rating': rating})
   #collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
   #return redirect(reverse('detail', kwargs={'album_id': album_id}))
 
@@ -140,14 +142,14 @@ def rate_collection(request, album_id, user_id=None):
 def collection( request):
   collections = Collection.objects.filter(user=request.user)
   for collection in collections:
-    collection.user_ratings = CollectionRating.objects.filter(album=collection.album, user_collection_id=request.user)
+    collection.user_ratings = CollectionRating.objects.filter(album=collection.album, user=request.user)
   return render(request, 'collection.html', {'collections': collections})
 
 
 def collections(request):
   users = User.objects.all().prefetch_related('collection_set')
   for user in users:
-    user_collection =  CollectionRating.objects.filter(user_rating=request.user, user_collection=user).first()
+    user_collection =  CollectionRating.objects.filter(user=request.user).first()
     
     user.rating = user_collection
   context = {
@@ -160,7 +162,7 @@ def user_collection(request, user_id):
   collections = Collection.objects.filter(user_id=user_id)
   for collection in collections:
     collection.user_ratings = CollectionRating.objects.filter(
-      user_rating=request.user, album=collection.album, user_collection_id=user_id)
+      album=collection.album, user=request.user)
     print(collection.user_ratings)
   return render(request, 'collection.html', {'collections': collections, 'user_id': user_id})
 
@@ -175,3 +177,8 @@ def review_collection(request, user_id):
   rating.review = request.POST.get('review')
   rating.save()
   return redirect('collections')
+
+
+def remove_rating(request, album_id):
+  CollectionRating.objects.filter(user=request.user, album=album_id).delete()
+  return redirect(reverse('detail', kwargs={'album_id': album_id}))

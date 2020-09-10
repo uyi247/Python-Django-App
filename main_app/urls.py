@@ -13,6 +13,7 @@ urlpatterns = [
   #path('collections/<int:user_id>/', views.review_collection, name='review_collection'),
   path('album/<int:album_id>/add-collection', views.add_to_collection, name='add_to_collection'),
   path('album/<int:album_id>/remove-collection', views.remove_from_collection, name='remove_from_collection'),
+  path('album/<int:album_id>/remove-rating', views.remove_rating, name='remove_rating'),
   path('album/<int:album_id>/rate-collection/', views.rate_collection, name='rate_collection'),
   path('album/<int:album_id>/rate-collection/<int:user_id>/', views.rate_collection, name='rate_collection'),
 ]

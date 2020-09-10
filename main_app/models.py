@@ -32,11 +32,10 @@ class Collection(models.Model):
 
 
 class CollectionRating(models.Model):
-    user_collection = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_ratings')
-    user_rating = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_rated')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_rated')
     album = models.IntegerField(Album, default=0)
     title = models.CharField(max_length=100, default="")
     art_url = models.URLField(max_length=255, default="")
     artist = models.CharField(max_length=100, default='NA')
-    rating = models.IntegerField(default=3)
+    rating = models.IntegerField(default=5)
     review = models.TextField(blank=True, null=True)
