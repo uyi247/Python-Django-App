@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<Script src='{% static "rating.js" %}'></script>
+{% for user in users %}
+    <div>
+        <h1><a href='{% url 'collection' user.id %}'>{{user.username}}</a></h1>
+            
+            
+        </h1>
+        
+        
+        <ul>
+            {% for collection in user.collection_set.all %}
+            <li>{{collection.title}} - {{collection.artist}}  <img id='collection_album_art' src="{{ collection.art_url }}"></a></li>
+            {% endfor %}
+        </ul>
+
+    </div>
+{% endfor %}
+{% endblock %}

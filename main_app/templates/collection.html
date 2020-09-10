@@ -11,8 +11,18 @@
 </h3>
 <a class='collection_links' href='{% url "detail" album_id=collection.album %}'>
   <img id='collection_album_art' src="{{ collection.art_url }}"></a>
-<em>"{{collection.review}}"</em></br>
+{% if collection.review %}<em>"{{collection.review}}"</em></br>{% endif %}
+{% if collection.user_ratings %}
+{% for rating in collection.user_ratings %}
+{{rating.user_rating}}  {{rating.rating}}
+ - {{rating.review }}
+ {% endfor %}
+ {% endif %}
+{% if user_id %}
+<a class='collection_links' href='{% url "rate_collection" album_id=collection.album user_id=user_id %}'>Rate</a>
+{% else %}
 <a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
+{% endif %}
 <a class='collection_links' href='{% url "remove_from_collection" album_id=collection.album %}'>Remove</a>
 <hr />
 {% endfor %}

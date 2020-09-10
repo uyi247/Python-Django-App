@@ -4,9 +4,11 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 import requests
+import json
 from django.urls import reverse
-from main_app.models import Album, Collection
-from main_app.forms import RatingForm
+from main_app.models import Album, Collection, CollectionRating
+from main_app.forms import RatingForm, RatingUserForm
+from django.contrib.auth.models import User
 
 def home(request):
     responsetop50 = requests.get('https://theaudiodb.com/api/v1/json/523532/mostloved.php?format=album')
@@ -98,6 +100,8 @@ def add_to_collection(request, album_id):
   album = response.json()
   collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
   collection.title = album['album'][0]['strAlbum']
+  collection.art_url = album['album'][0]['strAlbum3DCase']
+  collection.artist = album['album'][0]['strArtist']
   collection.save()
   return redirect(reverse('detail', kwargs={'album_id': album_id}))
 
@@ -108,14 +112,25 @@ def remove_from_collection(request, album_id):
   return redirect(reverse('detail', kwargs={'album_id': album_id}))
 
 @login_required
-def rate_collection(request, album_id):  
-  collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
-  form = RatingForm(request.POST or None, instance=collection)
+def rate_collection(request, album_id, user_id=None):  
+  if  user_id:
+    
+    collection, _ = CollectionRating.objects.get_or_create(album=album_id, user_collection_id=user_id, user_rating=request.user)
+    form = RatingUserForm(request.POST or None, instance=collection)
+  else:
+    try:
+      collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
+    except:
+      collection = Collection.objects.filter(album=album_id, user=request.user).first()
+      pass
+    form = RatingForm(request.POST or None, instance=collection)
   if request.method == "POST":
     if form.is_valid():
       collection = form.save(False)
       collection.user = request.user
       collection.save()
+      if user_id:
+        return redirect(reverse('collection', kwargs={'user_id': user_id}))
       return redirect(reverse('detail', kwargs={'album_id': album_id}))
   return render(request, 'rate.html', {'form': form})
   #collection, _ = Collection.objects.get_or_create(album=album_id, user=request.user)
@@ -125,8 +140,38 @@ def rate_collection(request, album_id):
 def collection( request):
   collections = Collection.objects.filter(user=request.user)
   for collection in collections:
-    response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(collection.album))
-    album = response.json()
-    collection.art_url = album['album'][0]['strAlbum3DCase']
-    collection.artist = album['album'][0]['strArtist']
+    collection.user_ratings = CollectionRating.objects.filter(album=collection.album, user_collection_id=request.user)
   return render(request, 'collection.html', {'collections': collections})
+
+
+def collections(request):
+  users = User.objects.all().prefetch_related('collection_set')
+  for user in users:
+    user_collection =  CollectionRating.objects.filter(user_rating=request.user, user_collection=user).first()
+    
+    user.rating = user_collection
+  context = {
+    'users': users,
+    'stars': range(5)
+  }
+  return render(request, 'collections.html', context)
+
+def user_collection(request, user_id):
+  collections = Collection.objects.filter(user_id=user_id)
+  for collection in collections:
+    collection.user_ratings = CollectionRating.objects.filter(
+      user_rating=request.user, album=collection.album, user_collection_id=user_id)
+    print(collection.user_ratings)
+  return render(request, 'collection.html', {'collections': collections, 'user_id': user_id})
+
+def rate_user_collection(request, user_id, stars):
+  rating, _ = CollectionRating.objects.get_or_create(user_rating=request.user, user_collection_id=user_id)
+  rating.rating = stars
+  rating.save()
+  return HttpResponse(json.dumps({'msg': 'ok'}))
+
+def review_collection(request, user_id):
+  rating, _ = CollectionRating.objects.get_or_create(user_rating=request.user, user_collection_id=user_id)
+  rating.review = request.POST.get('review')
+  rating.save()
+  return redirect('collections')

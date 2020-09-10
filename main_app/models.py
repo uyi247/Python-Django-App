@@ -24,6 +24,19 @@ class Collection(models.Model):
   RATING_CHOICES = [[x,x] for x in range(1 ,6)]
   album = models.IntegerField(Album, default=0)
   title = models.CharField(max_length=100, default="")
+  art_url = models.URLField(max_length=255, default="")
+  artist = models.CharField(max_length=100, default='NA')
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   rating = models.IntegerField(choices=RATING_CHOICES,blank=True, null=True, default=5)
   review = models.TextField(blank=True, null=True)
+
+
+class CollectionRating(models.Model):
+    user_collection = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_ratings')
+    user_rating = models.ForeignKey(User, on_delete=models.CASCADE, related_name='my_rated')
+    album = models.IntegerField(Album, default=0)
+    title = models.CharField(max_length=100, default="")
+    art_url = models.URLField(max_length=255, default="")
+    artist = models.CharField(max_length=100, default='NA')
+    rating = models.IntegerField(default=3)
+    review = models.TextField(blank=True, null=True)
