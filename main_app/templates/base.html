@@ -114,6 +114,8 @@
       margin-left: 50px;
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -131,17 +133,11 @@
       <nav>
         <ul>
           {% if user.is_authenticated %}
-<<<<<<< HEAD
-            <li>Hi {{ user.username }}</li>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href='{% url 'collection' %}'>My Collection</a></li>
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
-=======
-          <li>Hi {{ user.username }}!</li>
+          <li>Hi {{ user.username }}</li>
           <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href='{% url 'collections' %}'>Collections</a></li>
           <li><a href='{% url 'collection' %}'>My Collection</a></li>
           <li><a href="{% url 'logout' %}">Log Out</a></li>
->>>>>>> 567638f0030c452682629f4386bf0c246bea32f5
           {% else %}
           <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'login' %}">Log In</a></li>
