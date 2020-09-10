@@ -13,18 +13,23 @@
     <p>Initial Sales: {{ sales }}</p>
     {% if collection %}
     <a href="{% url 'remove_from_collection' album_id=pk %}"
-      >Remove from collection</a
+      ><button>Remove from collection</button></a
     >
     <a href="{% url 'rate_collection' album_id=pk %}"
-      >Rate ({{collection.rating}})</a
+      ><button>Rate</button></a
     >
     {% else %}
-    <a href="{% url 'add_to_collection' album_id=pk %}">Add to collection</a>
+    <a href="{% url 'add_to_collection' album_id=pk %}"><button>+ Add to collection</button></a>
     {% endif %}
   </article>
 </div>
 <p class="album_info_desc" id="album_description">
   Album Description: {{ album_description }}
 </p>
-
+<article class="album_info_desc" id='song_list'>
+  <p>Song List: </p>
+{% for song in song_list %}
+<p>{{ song }}</p>
+{% endfor %}
+</article>
 {% endblock %}

@@ -1,113 +1,158 @@
 {% load static %}
 
 <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <style>
+<html lang="en">
 
-      body {
-        background: rgb(56, 56, 56);
-      }
-      
-      body {
-        height: 100%;
-        font-family: Arial, Helvetica, sans-serif;
-        animation: fade 1s ease forwards;
-      }
-  
-      body:before {
-        content: "";
-        position: absolute;
-        background: url('{{ album_art }}');
-        background-size: cover;
-        z-index: -1;
-        height: 20%;
-        width: 20%;
-        transform: scale(5);
-        transform-origin: top left;
-        filter: blur(4px);
-      }
-  
-      body-inside {
-        position: relative;
-      }
-  
-      @keyframes fade {
-        from {
-          opacity: 0;
-        }
-  
-        to {
-          opactiy: 1;
-        }
-      }
-  
-      * {
-        box-sizing: border-box;
-      }
-  
-      #album_art {
-        margin: 10px 0 0 10px;
-        max-width: 550px;
-      }
-  
-      .album_info_desc {
-        background: rgb(0, 0, 0, 0.8);
-        border: 3px solid rgba(233, 233, 233, 0.85)
-      }
-  
-      #album_info {
-        margin: 10px 0 0 20px;
-        font-size: 22px;
-        padding: 0 10px 15px 10px;
-      }
-  
-      #album_art_info {
-        display: flex;
-        max-width: 760px;
-      }
-  
-      #album_description {
-        font-size: 18px;
-        margin: 10px;
-        padding: 10px;
-        max-width: 750px;
-        max-height: 330px;
-        overflow: scroll;
-      }
-  
-    </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    
-  </head>
+<head>
+  <style>
+    body {
+      background: rgb(56, 56, 56);
+    }
 
-  <body>
-    
-  
-    <div class='container'>
-      <header>
-        <a href=''><img id='logo' src='https://i.imgur.com/eK74Vzb.png'></a>
-        <nav>
-          <ul>
+    body {
+      height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      animation: fade 1s ease forwards;
+    }
+
+    body:before {
+      content: "";
+      position: absolute;
+      background: url('{{ album_art }}');
+      background-size: cover;
+      z-index: -1;
+      height: 20%;
+      width: 20%;
+      transform: scale(5);
+      transform-origin: top left;
+      filter: blur(4px);
+    }
+
+    body-inside {
+      position: relative;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opactiy: 1;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    a:link, a:visited {
+      color:rgb(223, 223, 223);
+    }
+
+    button {
+      border: none;
+      border-radius: 4px;
+      background: red;
+      color: white;
+      font-weight: bold;
+      height: 40px;
+      font-size: 15px;
+      margin-bottom: 10px;
+      width: 200px;
+    }
+
+    #album_art {
+      margin: 10px 0 0 10px;
+      max-width: 550px;
+    }
+
+    .album_info_desc {
+      background: rgb(0, 0, 0, 0.8);
+      border: 3px solid rgba(233, 233, 233, 0.85)
+    }
+
+    #album_info {
+      margin: 10px 0 0 20px;
+      font-size: 22px;
+      padding: 0 10px 15px 10px;
+    }
+
+    #album_art_info {
+      display: flex;
+      max-width: 760px;
+    }
+
+    #album_description {
+      font-size: 18px;
+      margin: 10px;
+      padding: 10px;
+      max-width: 750px;
+      max-height: 330px;
+      overflow: scroll;
+    }
+
+    .collection_links {
+      text-decoration: none;
+    }
+
+    #collection_album_art {
+      max-width: 250px;
+      display: flex;
+    }
+
+    #song_list {
+      max-width: 750px;
+      margin: 10px;
+      padding-left: 10px;
+      font-size: 18px;
+      max-height: 330px;
+      overflow: scroll;
+    }
+
+    #rating_area {
+      margin-left: 50px;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+
+  <div class='container'>
+    <header>
+      <a href='/'><img id='logo' src='https://i.imgur.com/eK74Vzb.png'></a>
+      <nav>
+        <ul>
           {% if user.is_authenticated %}
+<<<<<<< HEAD
             <li>Hi {{ user.username }}</li>
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href='{% url 'collection' %}'>My Collection</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
+=======
+          <li>Hi {{ user.username }}!</li>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href='{% url 'collection' %}'>My Collection</a></li>
+          <li><a href="{% url 'logout' %}">Log Out</a></li>
+>>>>>>> 567638f0030c452682629f4386bf0c246bea32f5
           {% else %}
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'login' %}">Log In</a></li>
-            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'login' %}">Log In</a></li>
+          <li><a href="{% url 'signup' %}">Sign Up</a></li>
           {% endif %}
-          </ul>
-        </nav>
-      </header>
-    </div>
-    {% block content %}
-    {% endblock %}
-  </body>
+        </ul>
+      </nav>
+    </header>
+  </div>
+  {% block content %}
+  {% endblock %}
+</body>
+
 </html>

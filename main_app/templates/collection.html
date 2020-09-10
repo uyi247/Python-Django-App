@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% for collection in collections%}
+<<<<<<< HEAD
 <h1>
   <a href= '{% url "detail" album_id=collection.album %}'>
     {{collection.title}}
@@ -18,3 +19,21 @@
 
 {% endfor %} 
 {% endblock %}
+=======
+<a class='collection_links' href='{% url "detail" album_id=collection.album %}'>
+  <h1>
+    {{ collection.title }} - {{ collection.rating }}⭐
+  </h1>
+</a>
+<h3>
+  {{ collection.artist }}
+</h3>
+<a class='collection_links' href='{% url "detail" album_id=collection.album %}'>
+  <img id='collection_album_art' src="{{ collection.art_url }}"></a>
+<em>"{{collection.review}}"</em></br>
+<a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
+<a class='collection_links' href='{% url "remove_from_collection" album_id=collection.album %}'>Remove</a>
+<hr />
+{% endfor %}
+{% endblock %}
+>>>>>>> 567638f0030c452682629f4386bf0c246bea32f5

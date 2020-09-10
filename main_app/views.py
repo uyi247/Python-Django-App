@@ -71,6 +71,13 @@ def home(request):
 
 def album_details(request, album_id):
     response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(album_id))
+    song_response = requests.get('https://theaudiodb.com/api/v1/json/1/track.php?m='+ str(album_id))
+    songs = song_response.json()
+    song_list =[]
+    i = 0
+    while i < len(songs['track']):
+      song_list.append(str(i+1) + '. ' + songs['track'][i]['strTrack'])
+      i+=1
     album = response.json()
     return render(request, 'album_detail.html', {
       'album_name': album['album'][0]['strAlbum'],
@@ -81,7 +88,8 @@ def album_details(request, album_id):
       'sales': album['album'][0]['intSales'],
       'album_description': album['album'][0]['strDescriptionEN'],
       'pk': album_id,
-      'collection': Collection.objects.filter(user=request.user, album=album_id).first()
+      'collection': Collection.objects.filter(user=request.user, album=album_id).first(),
+      'song_list': song_list,
     })
 
 @login_required
