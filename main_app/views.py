@@ -21,23 +21,14 @@ def home(request):
         album_art_top50.append(top50['loved'][i]['strAlbumThumb'])
         i+=1
     zipped_list = zip(album_id, album_art_top50)
+
+    users = User.objects.all().prefetch_related('collection_set')
+
     return render(request, 'home.html', {
       'id_and_art': zipped_list,
       'album_id' : album_id,
       'album_art_top50': album_art_top50,
-    })
-
-def album_details(request, album_id):
-    response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(album_id))
-    album = response.json()
-    return render(request, 'album_detail.html', {
-      'album_name': album['album'][0]['strAlbum'],
-      'album_art': album['album'][0]['strAlbumThumb'],
-      'album_back': album['album'][0]['strAlbumThumbBack'],
-      'artist_name': album['album'][0]['strArtist'],
-      'genre': album['album'][0]['strGenre'],
-      'sales': album['album'][0]['intSales'],
-      'album_description': album['album'][0]['strDescriptionEN'],
+      'users': users,
     })
 
 def signup(request):
@@ -54,23 +45,6 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-def home(request):
-    responsetop50 = requests.get('https://theaudiodb.com/api/v1/json/523532/mostloved.php?format=album')
-    top50 = responsetop50.json()
-    album_id = []
-    album_art_top50 = []
-    i = 0
-    while i < len(top50['loved']):
-        album_id.append(top50['loved'][i]['idAlbum'])
-        album_art_top50.append(top50['loved'][i]['strAlbumThumb'])
-        i+=1
-    zipped_list = zip(album_id, album_art_top50)
-    return render(request, 'home.html', {
-      'id_and_art': zipped_list,
-      'album_id' : album_id,
-      'album_art_top50': album_art_top50,
-    })
-
 def album_details(request, album_id):
     response = requests.get('https://theaudiodb.com/api/v1/json/1/album.php?m='+ str(album_id))
     song_response = requests.get('https://theaudiodb.com/api/v1/json/1/track.php?m='+ str(album_id))
@@ -82,7 +56,12 @@ def album_details(request, album_id):
       i+=1
     album = response.json()
     ratings = CollectionRating.objects.filter(album=album_id)
-    is_my_rating = ratings.filter(user=request.user)
+    if request.user.is_authenticated:
+      is_my_rating = ratings.filter(user=request.user)
+      collection = Collection.objects.filter(user=request.user, album=album_id).first()
+    else:
+      is_my_rating = False
+      collection = None
     return render(request, 'album_detail.html', {
       'album_name': album['album'][0]['strAlbum'],
       'album_art': album['album'][0]['strAlbumThumb'],
@@ -92,7 +71,7 @@ def album_details(request, album_id):
       'sales': album['album'][0]['intSales'],
       'album_description': album['album'][0]['strDescriptionEN'],
       'pk': album_id,
-      'collection': Collection.objects.filter(user=request.user, album=album_id).first(),
+      'collection': collection,
       'song_list': song_list,
       'ratings': ratings,
       'is_my_rating': is_my_rating,
@@ -148,22 +127,18 @@ def collection( request):
 
 def collections(request):
   users = User.objects.all().prefetch_related('collection_set')
-  for user in users:
-    user_collection =  CollectionRating.objects.filter(user=request.user).first()
-    
-    user.rating = user_collection
   context = {
     'users': users,
-    'stars': range(5)
   }
   return render(request, 'collections.html', context)
 
 def user_collection(request, user_id):
   collections = Collection.objects.filter(user_id=user_id)
-  for collection in collections:
-    collection.user_ratings = CollectionRating.objects.filter(
-      album=collection.album, user=request.user)
-    print(collection.user_ratings)
+  if request.user.is_authenticated:
+    for collection in collections:
+      collection.user_ratings = CollectionRating.objects.filter(
+        album=collection.album, user=request.user)
+      print(collection.user_ratings)
   return render(request, 'collection.html', {'collections': collections, 'user_id': user_id})
 
 def rate_user_collection(request, user_id, stars):
