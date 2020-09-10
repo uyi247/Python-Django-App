@@ -94,7 +94,8 @@
         <nav>
           <ul>
           {% if user.is_authenticated %}
-            <li>Hi {{ user.username }}!</li>
+            <li>Hi {{ user.username }}</li>
+            <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href='{% url 'collection' %}'>My Collection</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}

@@ -2,13 +2,14 @@
 {% block content %}
 {% for collection in collections%}
 <h1>
-  <a href='{% url "detail" album_id=collection.album %}'>
+  <a href= '{% url "detail" album_id=collection.album %}'>
     {{collection.title}}
   </a>
   ({{collection.rating}})
 </h1>
 {{ collection.artist }}
-<img width="400" height="400" src="{{ collection.art_url }}" />
+<a href= '{% url "detail" album_id=collection.album %}'>
+<img width="200" src="{{ collection.art_url }}"></a>
 <em>{{collection.review}}</em>
 <a href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
 <a href='{% url "remove_from_collection" album_id=collection.album %}'
