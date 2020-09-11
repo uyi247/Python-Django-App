@@ -16,12 +16,13 @@ If you aren't quite ready to register an account, you can still poke around and 
 - [TheAudioDB API](https://theaudiodb.com/api_guide.php)
 
 # Getting Started
+Start adding to your collection on [GA.fm](https://gafm.herokuapp.com/)!
 
-- [GA.fm](https://gafm.herokuapp.com/)
+If you're interested, take a look at our plans:
 - [Trello](https://trello.com/b/cGOrG4QA/project-3)
 - [Lucid Chart](https://app.lucidchart.com/publicSegments/view/759d0985-1a9b-4043-9b49-1dfb83942b20)
 
-# Wireframes
+...and our wireframes:
 ![Wireframes](images/project-3-wireframes.png)
 
 
