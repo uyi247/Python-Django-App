@@ -62,11 +62,6 @@ def album_details(request, album_id):
     else:
       is_my_rating = False
       collection = None
-    # def description_condition(request, album_id):
-    #   if 'album[strDescriptionEN]' is not None:
-    #     return render(request, 'abum''album_description': album['album'][0]['strDescriptionEN']
-    #   else
-    #     return f'There is no description.'
     return render(request, 'album_detail.html', {
       'album_name': album['album'][0]['strAlbum'],
       'album_art': album['album'][0]['strAlbumThumb'],
