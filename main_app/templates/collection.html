@@ -17,9 +17,9 @@
 {{rating.user}}  {{rating.rating}}
  - {{rating.review }}
 </br>
-  <a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit</a>
+  <a class='collection_links' href='{% url "rate_collection" album_id=collection.album %}'>Edit Rating</a>
 </br>
-  <a class='collection_links' href='{% url "remove_rating" album_id=collection.album %}'>Remove</a>
+  <a class='collection_links' href='{% url "remove_rating" album_id=collection.album %}'>Remove Rating</a>
  {% endfor %}
  {% endif %}
 {% if not collection.user_ratings %}
