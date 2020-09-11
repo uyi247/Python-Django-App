@@ -77,18 +77,19 @@
       margin: 10px 0 0 20px;
       font-size: 22px;
       padding: 0 10px 15px 10px;
+      width: 300px;
     }
 
     #album_art_info {
       display: flex;
-      max-width: 760px;
+      max-width: 860px;
     }
 
     #album_description {
       font-size: 18px;
       margin: 10px;
       padding: 10px;
-      max-width: 750px;
+      max-width: 850px;
       max-height: 330px;
       overflow: scroll;
     }
@@ -102,8 +103,12 @@
       display: flex;
     }
 
+    #collection-list {
+      list-style-type: none;
+    }
+
     #song_list {
-      max-width: 750px;
+      max-width: 850px;
       margin: 10px;
       padding-left: 10px;
       font-size: 18px;
@@ -122,12 +127,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-
 </head>
-
 <body>
-
-
   <div class='container'>
     <header>
       <a href='/'><img id='logo' src='https://i.imgur.com/eK74Vzb.png'></a>
@@ -136,8 +137,8 @@
           {% if user.is_authenticated %}
           <li>Hi {{ user.username }}</li>
           <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href='{% url 'collections' %}'>Collections</a></li>
-          <li><a href='{% url 'collection' %}'>My Collection</a></li>
+          <li><a href="{% url 'collections' %}">Collections</a></li>
+          <li><a href="{% url 'collection' %}">My Collection</a></li>
           <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}
           <li><a href="{% url 'home' %}">Home</a></li>

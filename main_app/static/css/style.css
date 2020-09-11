@@ -2,9 +2,11 @@ body {
   margin: 0;
   color: rgb(223, 223, 223);
 }
+
 a {
   color: white;
 }
+
 header {
   background: rgb(31, 31, 31);
   width: 100%;
@@ -34,8 +36,8 @@ nav ul {
 nav li {
   display: inline-block;
   margin: 18px 50px 0 50px;
-  padding-top: 13px;
-  position: relative;
+  /* padding-top: 13px;
+  position: relative; */
 }
 
 nav a {
@@ -75,7 +77,7 @@ nav a:hover::before {
 
 .album_art {
   max-width: 250px;
-  margin-right: 10px;
+  margin: 0px 0px 10px 10px;
 }
 
 #top50 {
@@ -89,12 +91,13 @@ nav a:hover::before {
   margin-left: 10px;
 }
 
-/* .album_rating {
+.album_rating {
   background: rgb(0, 0, 0, 0.8);
   border: 3px solid rgba(233, 233, 233, 0.85);
   padding: 20px;
   margin-bottom: 30px;
-} */
+  width: 500px;
+}
 
 .ratings_row {
   margin-top: 10px;

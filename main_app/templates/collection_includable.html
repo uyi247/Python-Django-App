@@ -4,15 +4,10 @@
 {% for user in users %}
     {% if user.collection_set.all %}
     <div>
-        <h1><a href='{% url 'collection' user.id %}'>{{user.username}} Collection</a></h1>
-            
-            
-        </h1>
-        
-        
+        <h4><a href='{% url 'collection' user.id %}'>{{user.username}}'s Collection</a></h4>
         <ul>
             {% for collection in user.collection_set.all %}
-            <li>{{collection.title}} - {{collection.artist}}  <img id='collection_album_art' src="{{ collection.art_url }}"></a></li>
+            <li id="collection-list">{{collection.title}} - {{collection.artist}}  <img id='collection_album_art' src="{{ collection.art_url }}"></a></li>
             {% endfor %}
         </ul>
 

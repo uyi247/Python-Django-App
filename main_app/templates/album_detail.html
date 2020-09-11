@@ -14,26 +14,30 @@
         <p>Genre: {{ genre }}</p>
         <p>Initial Sales: {{ sales }}</p>
         {% if collection %}
-        <a href="{% url 'remove_from_collection' album_id=pk %}">
-          <button>Remove from collection</button>
-        </a>
-        <a href="{% url 'rate_collection' album_id=pk %}">
-          {% if not is_my_rating %}
-          <button>Rate</button>
-          {% else %}
-          <button>Edit</button>
-          {% endif %}
-        </a>
+          <a href="{% url 'remove_from_collection' album_id=pk %}">
+            <button>Remove from collection</button>
+          </a>
+          <a href="{% url 'rate_collection' album_id=pk %}">
+            {% if not is_my_rating %}
+            <button>Rate</button>
+            {% else %}
+            <button>Edit</button>
+            {% endif %}
+          </a>
         {% else %}
-        <a href="{% url 'add_to_collection' album_id=pk %}"
-          ><button>+ Add to collection</button></a
-        >
+          <a href="{% url 'add_to_collection' album_id=pk %}">
+            <button>+ Add to collection</button>
+          </a>
         {% endif %}
       </article>
     </div>
-    <p class="album_info_desc" id="album_description">
-      Album Description: {{ album_description }}
-    </p>
+    {% if error in 'strDescriptionEN' %}
+      <p>No description.</p>
+    {% else %}
+      <p class="album_info_desc" id="album_description">
+        Album Description: {{ album_description }}
+      </p>
+    {% endif %}
     <article class="album_info_desc" id="song_list">
       <p>Song List:</p>
       {% for song in song_list %}
@@ -43,9 +47,9 @@
   </div>
   {% if ratings %}
   <div class="col-md-6">
-    <h1 class="text-center">Reviews</h1>
     <div class="row justify-content-center ratings_row">
       <div class="album_rating">
+        <h1 class="text-center">Reviews</h1>
         {% for rating in ratings %}
         <p>"{{ rating.review }}" - {{ rating.user }}, {{ rating.rating }} ⭐</p>
         {% endfor %}
