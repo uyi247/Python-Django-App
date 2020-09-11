@@ -4,7 +4,7 @@
 {% for user in users %}
     {% if user.collection_set.all %}
     <div>
-        <h4><a href='{% url 'collection' user.id %}'>{{user.username}}'s Collection</a></h4>
+        <h4><a href='{% url 'collection' user.id %}'>{{user.username}}'s collection</a></h4>
         <ul>
             {% for collection in user.collection_set.all %}
             <li id="collection-list">{{collection.title}} - {{collection.artist}}  <img id='collection_album_art' src="{{ collection.art_url }}"></a></li>

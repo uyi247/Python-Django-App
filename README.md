@@ -1,7 +1,15 @@
 # GA.fm
-Welcome to GA.fm, where you can keep track, rate, and review albums in your collection! All you need to is sign up, log in, and start the fun.
+Welcome to GA.fm, where you can keep track of, rate, and review albums in your collection! Sign up and log in to start. If you aren't quite ready to register an account, you can still poke around and see what you find.
 
-If you aren't quite ready to register an account, you can still poke around and see what you find. Getting album info from the Audio DB API, we provide you with fifty of users' favourites. Click on the album art in the "Top 50 Albums" bar on the home page to navigate to the album info. Marvel at the sales info! Tickle yourself with fun facts! Best of all, see what our esteemed user base has to say about the album; check out the "Reviews" section on the right side of the album page, and have the way you hear your favourite albums change forever.
+On the landing page, scroll through TheAudioDB users' top fifty albums. Click on the album art of any album to navigate to its detail page. Once there, check out the album's initial sales, track list, and learn fun facts in the "Description" section!
+
+Best of all, see what our esteemed user base has to say about the album: on the right side of the page, you'll find our users' reviews and ratings
+
+See an opinion that's just wrong? Sign up, log in, and navigate back to the album detail page. Now you'll see a big red "Add to collection" button. Click on it, then leave a review and rating.
+
+Want to take something back? No sweat! Navigate to your personal collection by clicking on "My Collection" in the nav bar. Then, click on "Edit Rating" or "Remove Rating". If you want to remove an album from your collection full-stop, navigate back to the album detail page and click "Remove from collection".
+
+To take a look at all users' collections, click on "Collections" in the nav bar. Scroll through the list to see who has what in their collection—then click on a user's header (format: "<-user's-> collection") to see that user's ratings and reviews.
 
 # Screenshots
 
