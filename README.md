@@ -17,7 +17,7 @@ If you aren't quite ready to register an account, you can still poke around and 
 
 # Getting Started
 
-- [GA.fm](intheflesh)
+- [GA.fm](https://gafm.herokuapp.com/)
 - [Trello](https://trello.com/b/cGOrG4QA/project-3)
 - [Lucid Chart](https://app.lucidchart.com/publicSegments/view/759d0985-1a9b-4043-9b49-1dfb83942b20)
 
