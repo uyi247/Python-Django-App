@@ -5,9 +5,9 @@ If you aren't quite ready to register an account, you can still poke around and 
 
 # Screenshots
 
-![Landing page](screenshots/landing-page.png?raw=true "Landing page")
+![Landing page](images/landing-page.png?raw=true "Landing page")
 
-![Album detail](screenshots/album-detail.png)
+![Album detail](images/album-detail.png)
 
 # Technologies Used
 - Python 3
@@ -22,6 +22,8 @@ If you aren't quite ready to register an account, you can still poke around and 
 - [Lucid Chart](https://app.lucidchart.com/publicSegments/view/759d0985-1a9b-4043-9b49-1dfb83942b20)
 
 # Wireframes
+![Wireframes](images/project-3-wireframes.png)
+
 
 # Planned Enhancements
 - Search bar
